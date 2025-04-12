@@ -1,0 +1,10 @@
+package com.food.DAO;
+
+import com.food.model.Orders1;
+
+public interface Orders1DAO {
+	  int insertOrders(Orders1 order);
+	  Orders1 getOrderByOId(int oid);
+	  int updateOrderByOId(int oid,String status);
+
+}
