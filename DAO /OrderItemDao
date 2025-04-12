@@ -1,0 +1,10 @@
+package com.food.DAO;
+
+import java.util.ArrayList;
+
+import com.food.model.OrderItem;
+
+public interface OrderItemDAO {
+	int insertOrderItems(OrderItem oitems);
+	ArrayList<OrderItem> getOrderItemByOId(int oid);
+}
