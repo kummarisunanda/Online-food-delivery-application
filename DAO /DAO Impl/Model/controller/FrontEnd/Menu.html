@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Menu Registration</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #DCE2E8;
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .form-container {
+            background-color: #D6C1CE;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 400px;
+        }
+        h2 {
+            color: #82465E;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        table {
+            width: 100%;
+            margin: 0 auto;
+            border-collapse: separate;
+            border-spacing: 10px;
+        }
+        td {
+            padding: 10px;
+            vertical-align: middle;
+        }
+        td label {
+            color: #82465E;
+            font-weight: bold;
+            display: block;
+            margin-bottom: 5px;
+        }
+        td input {
+            width: 100%;
+            padding: 8px;
+            border: 2px solid #A87188;
+            border-radius: 5px;
+            background-color: #C4A1B3;
+            color: #82465E;
+            text-align: center; /* Align input text to center */
+        }
+        input[type="submit"] {
+            background-color: #A87188;
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
+            width: 100%;
+            padding: 10px;
+            border-radius: 5px;
+            border: none;
+        }
+        input[type="submit"]:hover {
+            background-color: #82465E;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="form-container">
+        <h2>Menu Registration</h2>
+        <form action="RegisterMenu">
+            <table>
+                <tr>
+                    <td><label for="itemName">Item Name</label></td>
+                    <td><input type="text" id="itemName" name="name"></td>
+                </tr>
+                <tr>
+                    <td><label for="Description">Description</label></td>
+                    <td><input type="text" id="Description" name="Description"></td>
+                </tr>
+                <tr>
+                    <td><label for="price">Price</label></td>
+                    <td><input type="number" id="price" name="price"></td>
+                </tr>
+                <tr>
+                    <td><label for="isAvailable">Is Available</label></td>
+                    <td><input type="text" id="isAvailable" name="isAvailable"></td>
+                </tr>
+                <tr>
+                    <td><label for="imgPath">Image Path</label></td>
+                    <td><input type="text" id="imgPath" name="imgPath"></td>
+                </tr>
+                <tr>
+                    <td><label for="restaurentId">Restaurant ID</label></td>
+                    <td><input type="number" id="restaurentId" name="restaurentId"></td>
+                </tr>
+                <tr>
+                    <td colspan="2" style="text-align: center;">
+                        <input type="submit" value="Add Menu">
+                    </td>
+                </tr>
+            </table>
+        </form>
+    </div>
+
+</body>
+</html>
