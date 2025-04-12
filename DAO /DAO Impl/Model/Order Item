@@ -1,0 +1,62 @@
+package com.food.model;
+
+public class OrderItem {
+	private int oiId;
+    private int oId ;
+    private int menuId;
+    private int quantity;
+    private int subtotal;
+	public int getOiId() {
+		return oiId;
+	}
+	public void setOiId(int oiId) {
+		this.oiId = oiId;
+	}
+	public int getoId() {
+		return oId;
+	}
+	public void setoId(int oId) {
+		this.oId = oId;
+	}
+	public int getMenuId() {
+		return menuId;
+	}
+	public void setMenuId(int menuId) {
+		this.menuId = menuId;
+	}
+	public int getQuantity() {
+		return quantity;
+	}
+	public void setQuantity(int quantity) {
+		this.quantity = quantity;
+	}
+	public int getSubtotal() {
+		return subtotal;
+	}
+	public void setSubtotal(int subtotal) {
+		this.subtotal = subtotal;
+	}
+	public OrderItem(int oiId, int oId, int menuId, int quantity, int subtotal) {
+		super();
+		this.oiId = oiId;
+		this.oId = oId;
+		this.menuId = menuId;
+		this.quantity = quantity;
+		this.subtotal = subtotal;
+	}
+	public OrderItem(int oId, int menuId, int quantity, int subtotal) {
+		super();
+		this.oId = oId;
+		this.menuId = menuId;
+		this.quantity = quantity;
+		this.subtotal = subtotal;
+	}
+	public OrderItem() {
+		super();
+	}
+	@Override
+	public String toString() {
+		return oiId + " " + oId + " " + menuId + " " + quantity
+				+ " " + subtotal;
+	}  
+}
