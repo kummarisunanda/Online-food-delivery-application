@@ -1,0 +1,124 @@
+package com.food.DaoImpl;
+
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
+
+import com.food.DAO.MenuDAO;
+import com.food.model.Menu;
+
+public class MenuDaoImpl implements MenuDAO {
+	int x=-1;
+	ArrayList<Menu> listMenu=new ArrayList<Menu>();
+	private final static String INSERT_MENU="insert into Menu(itemName,description,price,isAvailable,imgPath,restaurentId)values(?,?,?,?,?,?)";
+	private final static String GET_RESTAURENT_BY_ID="select * from Menu where RestaurentId=?";
+	private final static String GET_MENU_BY_ID="select * from Menu where menuId=?";
+	private final static String DELETE_MENU_BY_ID="delete from Menu where menuId=?";
+	private final static String UPDATE_ISAVAILABLE_BY_ID="update Menu set isAvailable=? where menuId=?";
+    static Connection con;
+    private PreparedStatement pstmt;
+	private Statement stmt;
+	private ResultSet resultSet;
+	Menu menu;
+    static {	
+    	try {
+        	Class.forName("com.mysql.cj.jdbc.Driver");
+        	con=DriverManager.getConnection("jdbc:mysql://localhost:3306/online_food_delivery", "root", "root");
+        }
+        catch(Exception e) {
+        	e.printStackTrace();
+        }
+    }
+	@Override
+	public int insertMenu(Menu menu) {
+		try {
+			pstmt=con.prepareStatement(INSERT_MENU);
+			pstmt.setString(1, menu.getItemName());
+			pstmt.setString(2, menu.getDescription() );
+			pstmt.setFloat(3, menu.getPrice());
+			pstmt.setBoolean(4, menu.getIsAvailable());
+			pstmt.setString(5, menu.getImgPath());
+			pstmt.setInt(6, menu.getRestaurentId());
+			x=pstmt.executeUpdate();
+			}
+		catch(Exception e) {
+			e.printStackTrace();
+		}
+		return x;
+	}
+
+	@Override
+	public List<Menu> getRestById(int id) {
+		try {
+			pstmt=con.prepareStatement(GET_RESTAURENT_BY_ID);
+			pstmt.setInt(1, id);
+			resultSet=pstmt.executeQuery();
+			listMenu=(ArrayList<Menu>)extractUserListFromResultSet(resultSet);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return listMenu;
+	}
+
+	@Override
+	public Menu getMenuById(int id) {
+		try {
+			pstmt=con.prepareStatement(GET_MENU_BY_ID);
+			pstmt.setInt(1,id);
+			resultSet=pstmt.executeQuery();
+			listMenu=(ArrayList<Menu>)extractUserListFromResultSet(resultSet);
+			menu=listMenu.get(0);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return menu;
+	}
+
+	@Override
+	public int deleteMenuById(int id) {
+		try {
+			pstmt=con.prepareStatement(DELETE_MENU_BY_ID);
+			pstmt.setInt(1,id);
+			x=pstmt.executeUpdate();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return x;
+	}
+
+	@Override
+	public int updateMenuById(int id, boolean isAvailable) {
+		try {
+			pstmt=con.prepareStatement(UPDATE_ISAVAILABLE_BY_ID);
+			pstmt.setBoolean(1,isAvailable);
+			pstmt.setInt(2, id);
+			x=pstmt.executeUpdate();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return x;
+	}
+	List<Menu> extractUserListFromResultSet(ResultSet resultset){
+		try {
+			while(resultSet.next()) {
+				listMenu.add(new Menu(resultSet.getInt(1),
+						resultSet.getString(2),
+						resultSet.getString(3),
+						resultSet.getFloat(4),
+						resultSet.getBoolean(5),
+						resultSet.getString(6),
+						resultSet.getInt(7)
+						));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return listMenu;
+	}
+
+}
