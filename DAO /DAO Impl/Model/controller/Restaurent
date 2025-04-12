@@ -1,0 +1,43 @@
+package com.tap.controller;
+
+import java.io.IOException;
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import com.food.DAO.RestaurentDAO;
+import com.food.DaoImpl.RestaurentDaoImpl;
+import com.food.model.Restaurent;
+
+/**
+ * Servlet implementation class RegisterRestaurent
+ */
+@WebServlet("/RegisterRestaurent")
+public class RegisterRestaurent extends HttpServlet {
+	
+	@Override
+		protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		String name=req.getParameter("name");
+		String cuisineType=req.getParameter("cuisineType");
+		int deliveryTime=Integer.parseInt(req.getParameter("deliveryTime"));
+		boolean isActive=Boolean.parseBoolean(req.getParameter("isActive"));
+	    int rating=Integer.parseInt(req.getParameter("rating"));
+		String imgPath=req.getParameter("imgPath");
+		
+		Restaurent r=new Restaurent(name,cuisineType,deliveryTime,isActive,rating,imgPath);
+		RestaurentDAO  rdaoi=new RestaurentDaoImpl();
+		int x=rdaoi. insertRestaurent(r);
+		if(x==0) {
+			resp.sendRedirect("failure.html");
+		}
+		else {
+			resp.sendRedirect("success.html");
+		}
+	}
+
+}
+
+		
+	
+	
