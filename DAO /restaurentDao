@@ -1,0 +1,13 @@
+package com.food.DAO;
+
+import java.util.List;
+
+import com.food.model.Restaurent;
+
+public interface RestaurentDAO {
+	int insertRestaurent(Restaurent rest);
+    List<Restaurent> getAllRest();
+    Restaurent getRestById(int id);
+    int deleteRestById(int id);
+    int updateRestById(int id,boolean isActive);
+}
