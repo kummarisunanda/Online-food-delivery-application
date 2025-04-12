@@ -1,0 +1,13 @@
+package com.food.DAO;
+
+import java.util.List;
+
+import com.food.model.Menu;
+
+public interface MenuDAO {
+	int insertMenu(Menu menu);
+    List<Menu> getRestById(int id);
+    Menu getMenuById(int id);
+    int deleteMenuById(int id);
+    int updateMenuById(int id,boolean isActive);
+}
