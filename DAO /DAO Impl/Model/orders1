@@ -1,0 +1,82 @@
+package com.food.model;
+
+public class Orders1 {
+	private int oId;
+    private int userId;
+    private int restaurentId;
+    private int totalAmount;
+    private String status;
+    private java.sql.Timestamp orderDate;
+    private String paymentOPtion;
+	public int getoId() {
+		return oId;
+	}
+	public void setoId(int oId) {
+		this.oId = oId;
+	}
+	public int getUserId() {
+		return userId;
+	}
+	public void setUserId(int userId) {
+		this.userId = userId;
+	}
+	public int getRestaurentId() {
+		return restaurentId;
+	}
+	public void setRestaurentId(int restaurentId) {
+		this.restaurentId = restaurentId;
+	}
+	public int getTotalAmount() {
+		return totalAmount;
+	}
+	public void setTotalAmount(int totalAmount) {
+		this.totalAmount = totalAmount;
+	}
+	public String getStatus() {
+		return status;
+	}
+	public void setStatus(String status) {
+		this.status = status;
+	}
+	public String getPaymentOPtion() {
+		return paymentOPtion;
+	}
+	public void setPaymentOPtion(String paymentOPtion) {
+		this.paymentOPtion = paymentOPtion;
+	}
+	public java.sql.Timestamp getOrderDate() {
+		return orderDate;
+	}
+	public void setOrderDate(java.sql.Timestamp orderDate) {
+		this.orderDate = orderDate;
+	}
+	public Orders1() {
+		super();
+	}
+	public Orders1(int oId, int userId, int restaurentId, int totalAmount, String status, java.sql.Timestamp orderDate,
+			String paymentOPtion) {
+		super();
+		this.oId = oId;
+		this.userId = userId;
+		this.restaurentId = restaurentId;
+		this.totalAmount = totalAmount;
+		this.status = status;
+		this.orderDate = orderDate;
+		this.paymentOPtion = paymentOPtion;
+	}
+	public Orders1(int userId, int restaurentId, int totalAmount, String status,
+			String paymentOPtion) {
+		super();
+		this.userId = userId;
+		this.restaurentId = restaurentId;
+		this.totalAmount = totalAmount;
+		this.status = status;
+		this.paymentOPtion = paymentOPtion;
+	}
+	@Override
+	public String toString() {
+		return  oId + " " + userId + " " + restaurentId + " "
+				+ totalAmount + " " + status + " "+orderDate+" "+ paymentOPtion;
+	}
+	
+}
