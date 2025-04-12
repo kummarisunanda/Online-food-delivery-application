@@ -1,0 +1,81 @@
+package com.food.DaoImpl;
+
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.util.ArrayList;
+
+import com.food.DAO.OrderHistoryDAO;
+import com.food.model.OrderHistory;
+
+public class OrderHistoryDaoImpl implements OrderHistoryDAO {
+	int x=-1;
+	ArrayList<OrderHistory> listOrderhistory=new ArrayList<OrderHistory>();
+	private final static String INSERT_ORDERHISTORY="insert into Orderhistory(user_id,oId,totalAmount,status)values(?,?,?,?)";
+	private final static String GET_DATA_BY_UID="select * from Orderhistory where user_id=?";
+	private final static String UPDATE_STATUS_BY_OHID="update Orderhistory set status=? where ohId=?";
+    static Connection con;
+    private PreparedStatement pstmt;
+	private ResultSet resultSet;
+    static {	
+    	try {
+        	Class.forName("com.mysql.cj.jdbc.Driver");
+        	con=DriverManager.getConnection("jdbc:mysql://localhost:3306/online_food_delivery", "root", "root");
+        }
+        catch(Exception e) {
+        	e.printStackTrace();
+        }
+    }
+	@Override
+	public int insertOrderHistory(OrderHistory ohistory) {
+		try {
+			pstmt=con.prepareStatement(INSERT_ORDERHISTORY);
+			pstmt.setInt(1, ohistory.getUserId());
+			pstmt.setInt(2, ohistory.getoId() );
+			pstmt.setInt(3, ohistory.getTotalAmount() );
+			pstmt.setString(4, ohistory.getStatus());
+            x=pstmt.executeUpdate();
+			}
+		catch(Exception e) {
+			e.printStackTrace();
+		}
+		return x;
+	}
+
+	@Override
+	public ArrayList<OrderHistory> getDataByUserId(int uid) {
+		try {
+			pstmt=con.prepareStatement(GET_DATA_BY_UID);
+			pstmt.setInt(1,uid);
+			resultSet=pstmt.executeQuery();
+			while(resultSet.next()) {
+				listOrderhistory.add(new OrderHistory(resultSet.getInt(1),
+						resultSet.getInt(2),
+						resultSet.getInt(3),
+						resultSet.getTimestamp(4),
+						resultSet.getInt(5),
+						resultSet.getString(6)
+						));
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return listOrderhistory;
+	}
+	
+	@Override
+	public int updateStatusByOhId(int ohid, String status) {
+		try {
+			pstmt=con.prepareStatement(UPDATE_STATUS_BY_OHID);
+			pstmt.setString(1,status);
+			pstmt.setInt(2, ohid);
+			x=pstmt.executeUpdate();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return x;
+	}
+
+}
