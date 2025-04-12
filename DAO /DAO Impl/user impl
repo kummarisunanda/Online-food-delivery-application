@@ -1,0 +1,245 @@
+//package com.food.DaoImpl;
+//
+//import java.sql.Connection;
+//import java.sql.DriverManager;
+//import java.sql.PreparedStatement;
+//import java.sql.ResultSet;
+//import java.sql.SQLException;
+//import java.sql.Statement;
+//import java.util.ArrayList;
+//import java.util.List;
+//
+//import com.food.DAO.UserDAO;
+//import com.food.model.User;
+//
+//public class UserDaoImpl implements UserDAO {
+//    int x = -1;
+//    User user;
+//    ArrayList<User> listUser = new ArrayList<User>();
+//    private final static String INSERT_USER = "insert into user(username,password,email,mobileNo,address) values(?,?,?,?,?)";  // Added mobileNo in query
+//    private final static String GET_ALL_USERS = "select * from user";
+//    private final static String GET_USERS_BY_ID = "select * from user where user_id=?";
+//    private final static String DELETE_USERS_BY_ID = "delete from user where user_id=?";
+//    private final static String UPDATE_ADDRESS_BY_ID = "update user set address=? where user_id=?";
+//    static Connection con;
+//    private PreparedStatement pstmt;
+//    private Statement stmt;
+//    private ResultSet resultSet;
+//
+//    static {
+//        try {
+//            Class.forName("com.mysql.cj.jdbc.Driver");
+//            con = DriverManager.getConnection("jdbc:mysql://localhost:3306/online_food_delivery", "root", "root");
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+//    }
+//
+//    @Override
+//    public int insertUser(User user) {
+//        try {
+//            pstmt = con.prepareStatement(INSERT_USER);
+//            pstmt.setString(1, user.getUsername());
+//            pstmt.setString(2, user.getPassword());
+//            pstmt.setString(3, user.getEmail());
+//            pstmt.setString(4, user.getMobileNo());  // Added mobileNo
+//            pstmt.setString(5, user.getAddress());
+//            x = pstmt.executeUpdate();
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+//        return x;
+//    }
+//
+//    @Override
+//    public List<User> getAllUsers() {
+//        try {
+//            stmt = con.createStatement();
+//            resultSet = stmt.executeQuery(GET_ALL_USERS);
+//            listUser = (ArrayList<User>) extractUserListFromResultSet(resultSet);
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+//        return listUser;
+//    }
+//
+//    @Override
+//    public User getUserById(int id) {
+//        try {
+//            pstmt = con.prepareStatement(GET_USERS_BY_ID);
+//            pstmt.setInt(1, id);
+//            resultSet = pstmt.executeQuery();
+//            listUser = (ArrayList<User>) extractUserListFromResultSet(resultSet);
+//            user = listUser.get(0);
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+//        return user;
+//    }
+//
+//    @Override
+//    public int deleteUserById(int id) {
+//        try {
+//            pstmt = con.prepareStatement(DELETE_USERS_BY_ID);
+//            pstmt.setInt(1, id);
+//            x = pstmt.executeUpdate();
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+//        return x;
+//    }
+//
+//    @Override
+//    public int updateUserById(int id, String address) {
+//        try {
+//            pstmt = con.prepareStatement(UPDATE_ADDRESS_BY_ID);
+//            pstmt.setString(1, address);
+//            pstmt.setInt(2, id);
+//            x = pstmt.executeUpdate();
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+//        return x;
+//    }
+//
+//    List<User> extractUserListFromResultSet(ResultSet resultset) {
+//        try {
+//            while (resultSet.next()) {
+//                listUser.add(new User(resultSet.getInt(1),
+//                        resultSet.getString(2),
+//                        resultSet.getString(3),
+//                        resultSet.getString(4),
+//                        resultSet.getString(5),  // Extract mobileNo from result set
+//                        resultSet.getString(6),
+//                        resultSet.getString(7)));
+//            }
+//        } catch (SQLException e) {
+//            e.printStackTrace();
+//        }
+//        return listUser;
+//    }
+//}
+
+package com.food.DaoImpl;
+
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
+
+import com.food.DAO.UserDAO;
+import com.food.model.User;
+
+public class UserDaoImpl implements UserDAO {
+    int x = -1;
+    User user;
+    ArrayList<User> listUser = new ArrayList<User>();
+    private final static String INSERT_USER = "insert into user(username,password,email,mobileNo,address) values(?,?,?,?,?)";  // Added mobileNo in query
+    private final static String GET_ALL_USERS = "select * from user";
+    private final static String GET_USERS_BY_EMAIL = "select * from user where email=?";  // Updated query to fetch by email
+    private final static String DELETE_USERS_BY_ID = "delete from user where user_id=?";
+    private final static String UPDATE_ADDRESS_BY_ID = "update user set address=? where user_id=?";
+    static Connection con;
+    private PreparedStatement pstmt;
+    private Statement stmt;
+    private ResultSet resultSet;
+
+    static {
+        try {
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            con = DriverManager.getConnection("jdbc:mysql://localhost:3306/online_food_delivery", "root", "root");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public int insertUser(User user) {
+        try {
+            pstmt = con.prepareStatement(INSERT_USER);
+            pstmt.setString(1, user.getUsername());
+            pstmt.setString(2, user.getPassword());
+            pstmt.setString(3, user.getEmail());
+            pstmt.setString(4, user.getMobileNo());  // Added mobileNo
+            pstmt.setString(5, user.getAddress());
+            x = pstmt.executeUpdate();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return x;
+    }
+
+    @Override
+    public List<User> getAllUsers() {
+        try {
+            stmt = con.createStatement();
+            resultSet = stmt.executeQuery(GET_ALL_USERS);
+            listUser = (ArrayList<User>) extractUserListFromResultSet(resultSet);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return listUser;
+    }
+
+    @Override
+    public User getUserByEmail(String email) {  // Method to fetch user by email
+        try {
+            pstmt = con.prepareStatement(GET_USERS_BY_EMAIL);  // Using query for email
+            pstmt.setString(1, email);  // Setting email parameter
+            resultSet = pstmt.executeQuery();
+            listUser = (ArrayList<User>) extractUserListFromResultSet(resultSet);
+            if (!listUser.isEmpty()) {
+                user = listUser.get(0);  // Fetch the first user (assuming unique email)
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return user;
+    }
+
+    @Override
+    public int deleteUserById(int id) {
+        try {
+            pstmt = con.prepareStatement(DELETE_USERS_BY_ID);
+            pstmt.setInt(1, id);
+            x = pstmt.executeUpdate();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return x;
+    }
+
+    @Override
+    public int updateUserById(int id, String address) {
+        try {
+            pstmt = con.prepareStatement(UPDATE_ADDRESS_BY_ID);
+            pstmt.setString(1, address);
+            pstmt.setInt(2, id);
+            x = pstmt.executeUpdate();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return x;
+    }
+
+    List<User> extractUserListFromResultSet(ResultSet resultSet) {
+        try {
+            while (resultSet.next()) {
+                listUser.add(new User(resultSet.getString("username"),
+                        resultSet.getString("password"),
+                        resultSet.getString("email"),
+                        resultSet.getString("mobileNo"), 
+                        resultSet.getString("address")
+                        ));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return listUser;
+    }
+}
+
