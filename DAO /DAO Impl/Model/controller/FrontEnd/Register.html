@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Registration</title>
+    <style>
+        body {
+            background-color: #F2DCE9; 
+            font-family: Arial, sans-serif;
+            color: #333;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            padding: 20px;
+        }
+        form {
+            background-color: #EDC9DF; 
+            border-radius: 10px;
+            padding: 20px;
+            width: 350px; 
+            height: auto; 
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            display: flex;
+            flex-direction: column;
+            justify-content: center; 
+            align-items: center; 
+            box-sizing: border-box; 
+        }
+        h1 {
+            color: #E979BA; 
+            margin: 0 0 20px 0; 
+            font-size: 20px;
+        }
+        label {
+            color: #E979BA; 
+            font-weight: bold;
+            margin-bottom: 5px;
+            font-size: 14px; 
+            text-align: center; 
+            width: 100%; 
+        }
+        input[type="text"],
+        input[type="password"],
+        input[type="tel"] {
+            width: 100%;
+            padding: 8px; 
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-sizing: border-box; 
+            margin-bottom: 10px; 
+        }
+        input[type="submit"] {
+            background-color: #E2ADCC; 
+            color: #fff;
+            padding: 10px; 
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px; 
+            transition: background-color 0.3s;
+            width: 100%; 
+        }
+        input[type="submit"]:hover {
+            background-color: #E979BA; 
+        }
+        p {
+            color: #E979BA;
+            font-size: 14px; 
+            margin-top: 15px; 
+            text-align: center; 
+        }
+    </style>
+</head>
+<body>    
+    <form action="addUser">
+        <h1>Foodie Haven Restaurant</h1>
+        
+        <label for="username">Username</label>
+        <input type="text" id="username" name="username" required>
+        
+        <label for="password">Password</label>
+        <input type="password" id="password" name="password" required>
+        
+        <label for="email">Email</label>
+        <input type="text" id="email" name="email" required>
+
+        <label for="mobile">Mobile</label>
+        <input type="tel" id="mobile" name="mobileNo" required>
+        
+        <label for="address">Address</label>
+        <input type="text" id="address" name="address" required>
+        
+        <input type="submit" value="Add User">
+        
+        <p>Already registered? <a href="login.jsp">Login here</a></p>
+        
+    </form>
+      
+</body>
+</html>
