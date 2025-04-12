@@ -1,0 +1,126 @@
+package com.food.DaoImpl;
+
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
+
+import com.food.DAO.RestaurentDAO;
+import com.food.model.Restaurent;
+
+public class RestaurentDaoImpl implements RestaurentDAO {
+	int x=-1;
+	ArrayList<Restaurent> listRest=new ArrayList<Restaurent>();
+	private final static String INSERT_RESTAURENT="insert into restaurent(name,cuisineType,deliveryTime,isActive,rating,imgPath)values(?,?,?,?,?,?)";
+	private final static String GET_ALL_RESTAURENTS="select * from restaurent";
+	private final static String GET_RESTAURENT_BY_ID="select * from restaurent where restaurentId=?";
+	private final static String DELETE_RESTAURENT_BY_ID="delete from restaurent where restaurentId=?";
+	private final static String UPDATE_ISACTIVE_BY_ID="update restaurent set isActive=? where restaurentId=?";
+    static Connection con;
+    private PreparedStatement pstmt;
+	private Statement stmt;
+	private ResultSet resultSet;
+	Restaurent rest;
+    static {	
+    	try {
+        	Class.forName("com.mysql.cj.jdbc.Driver");
+        	con=DriverManager.getConnection("jdbc:mysql://localhost:3306/online_food_delivery", "root", "root");
+        }
+        catch(Exception e) {
+        	e.printStackTrace();
+        }
+    }
+	
+	@Override
+	public int insertRestaurent(Restaurent rest) {
+		try {
+			pstmt=con.prepareStatement(INSERT_RESTAURENT);
+			pstmt.setString(1, rest.getName());
+			pstmt.setString(2, rest.getCuisineType() );
+			pstmt.setInt(3, rest.getDeliveryTime());
+			pstmt.setBoolean(4, rest.getIsActive());
+			pstmt.setInt(5, rest.getRating());
+			pstmt.setString(6, rest.getImgPath());
+			x=pstmt.executeUpdate();
+			}
+		catch(Exception e) {
+			e.printStackTrace();
+		}
+		return x;
+		
+	}
+
+	@Override
+	public List<Restaurent> getAllRest() {
+		try {
+			stmt=con.createStatement();
+			resultSet=stmt.executeQuery(GET_ALL_RESTAURENTS);
+			listRest=(ArrayList<Restaurent>)extractUserListFromResultSet(resultSet);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return listRest;	
+
+	}
+
+	@Override
+	public Restaurent getRestById(int id) {
+		try {
+			pstmt=con.prepareStatement(GET_RESTAURENT_BY_ID);
+			pstmt.setInt(1,id);
+			resultSet=pstmt.executeQuery();
+			listRest=(ArrayList<Restaurent>)extractUserListFromResultSet(resultSet);
+			rest=listRest.get(0);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return rest;
+	}
+
+	@Override
+	public int deleteRestById(int id) {
+		try {
+			pstmt=con.prepareStatement(DELETE_RESTAURENT_BY_ID);
+			pstmt.setInt(1,id);
+			x=pstmt.executeUpdate();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return x;
+	}
+
+	@Override
+	public int updateRestById(int id, boolean isActive) {
+		try {
+			pstmt=con.prepareStatement(UPDATE_ISACTIVE_BY_ID);
+			pstmt.setBoolean(1,isActive);
+			pstmt.setInt(2, id);
+			x=pstmt.executeUpdate();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return x;
+	}
+	
+	List<Restaurent> extractUserListFromResultSet(ResultSet resultset){
+		try {
+			while(resultSet.next()) {
+				listRest.add(new Restaurent(resultSet.getInt(1),
+						resultSet.getString(2),
+						resultSet.getString(3),
+						resultSet.getInt(4),
+						resultSet.getBoolean(5),
+						resultSet.getInt(6),
+						resultSet.getString(7)
+						));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return listRest;
+	}
+}
