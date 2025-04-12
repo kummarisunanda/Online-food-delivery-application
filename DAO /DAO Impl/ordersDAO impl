@@ -1,0 +1,99 @@
+package com.food.DaoImpl;
+
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
+
+import com.food.DAO.Orders1DAO;
+import com.food.model.Orders1;
+
+public class Orders1DaoImpl implements Orders1DAO {
+	int x=-1;
+	ArrayList<Orders1> listOrders=new ArrayList<Orders1>();
+	private final static String INSERT_ORDERS="insert into Orders1(user_id,restaurentId,totalAmount,status,paymentOption)values(?,?,?,?,?)";
+	private final static String GET_ORDER_BY_ID="select * from Orders1 where oID=?";
+	private final static String UPDATE_STATUS_BY_ID="update Orders1 set status=? where oId=?";
+    static Connection con;
+    private PreparedStatement pstmt;
+	private Statement stmt;
+	private ResultSet resultSet;
+    Orders1 order;
+    static {	
+    	try {
+        	Class.forName("com.mysql.cj.jdbc.Driver");
+        	con=DriverManager.getConnection("jdbc:mysql://localhost:3306/online_food_delivery", "root", "root");
+        }
+        catch(Exception e) {
+        	e.printStackTrace();
+        }
+    }
+	
+	@Override
+	public int insertOrders(Orders1 order) {
+		try {
+			pstmt=con.prepareStatement(INSERT_ORDERS);
+			pstmt.setInt(1, order.getUserId());
+			pstmt.setInt(2, order.getRestaurentId() );
+			pstmt.setInt(3, order.getTotalAmount());
+			pstmt.setString(4, order.getStatus());
+			pstmt.setString(5, order.getPaymentOPtion());
+			x=pstmt.executeUpdate();
+			}
+		catch(Exception e) {
+			e.printStackTrace();
+		}
+		return x;
+	}
+
+	@Override
+	public Orders1 getOrderByOId(int oid) {
+		try {
+			pstmt=con.prepareStatement(GET_ORDER_BY_ID);
+			pstmt.setInt(1,oid);
+			resultSet=pstmt.executeQuery();
+			listOrders=(ArrayList<Orders1>)extractOrdersListFromResultSet(resultSet);
+			order=listOrders.get(0);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return order;
+	}
+
+	@Override
+	public int updateOrderByOId(int oid, String status) {
+		try {
+			pstmt=con.prepareStatement(UPDATE_STATUS_BY_ID);
+			pstmt.setString(1,status);
+			pstmt.setInt(2, oid);
+			x=pstmt.executeUpdate();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return x;
+			}
+	
+	List<Orders1> extractOrdersListFromResultSet(ResultSet resultset){
+		
+		try {
+			while(resultset.next()) {
+				listOrders.add(new Orders1(resultset.getInt(1),
+						resultset.getInt(2),
+						resultset.getInt(3),
+						resultset.getInt(4),
+						resultset.getString(5),
+						resultset.getTimestamp(6),
+						resultset.getString(7)
+						));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return listOrders;
+	}
+
+}
