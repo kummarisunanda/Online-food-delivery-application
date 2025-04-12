@@ -1,0 +1,37 @@
+package com.tap.controller;
+
+import java.io.IOException;
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import com.food.model.User;
+import com.food.DAO.UserDAO;
+import com.food.DaoImpl.UserDaoImpl ;
+/**
+ * Servlet implementation class RegisterUser
+ */
+@WebServlet("/addUser")
+public class RegisterUser extends HttpServlet {
+	
+	@Override
+	protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		String username=req.getParameter("username");
+		String password=req.getParameter("password");
+		String email=req.getParameter("email");
+		String mobileNo=req.getParameter("mobileNo");
+		String address=req.getParameter("address");
+		User u=new User(username,password,email,mobileNo,address);
+		UserDAO  udaoi=new UserDaoImpl();
+		int x=udaoi.insertUser(u);
+		if(x==0) {
+			resp.sendRedirect("failure.html");
+		}
+		else {
+			resp.sendRedirect("success.html");
+		}
+	}
+	
+	
+}
