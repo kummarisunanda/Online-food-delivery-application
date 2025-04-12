@@ -1,0 +1,11 @@
+package com.food.DAO;
+
+import java.util.ArrayList;
+
+import com.food.model.OrderHistory;
+
+public interface OrderHistoryDAO {
+	 int insertOrderHistory(OrderHistory ohistory);
+	 ArrayList<OrderHistory> getDataByUserId(int uid);
+	 int updateStatusByOhId(int ohid,String status);
+}
