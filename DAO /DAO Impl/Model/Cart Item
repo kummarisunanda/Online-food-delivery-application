@@ -1,0 +1,52 @@
+package com.food.model;
+
+public class CartItem {
+	private int itemid;
+	private int restaurentId;
+	private String name;
+	private int quantity;
+	private double price;
+	public CartItem(int itemid, int restaurentId, String name, int quantity, double price) {
+		super();
+		this.itemid = itemid;
+		this.restaurentId = restaurentId;
+		this.name = name;
+		this.quantity = quantity;
+		this.price = price;
+	}
+	public int getItemid() {
+		return itemid;
+	}
+	public void setItemid(int itemid) {
+		this.itemid = itemid;
+	}
+	public int getRestaurentId() {
+		return restaurentId;
+	}
+	public void setRestaurentId(int restaurentId) {
+		this.restaurentId = restaurentId;
+	}
+	public String getName() {
+		return name;
+	}
+	public void setName(String name) {
+		this.name = name;
+	}
+	public int getQuantity() {
+		return quantity;
+	}
+	public void setQuantity(int quantity) {
+		this.quantity = quantity;
+	}
+	public double getPrice() {
+		return price;
+	}
+	public void setPrice(double price) {
+		this.price = price;
+	}
+	@Override
+	public String toString() {
+		return "CartItem [itemid=" + itemid + ", restaurentId=" + restaurentId + ", name=" + name + ", quantity="
+				+ quantity + ", price=" + price + "]";
+	}
+}
